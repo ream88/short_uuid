@@ -45,9 +45,9 @@ defmodule ShortUUID.MixProject do
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:ecto, "~> 3.0", optional: true},
       {:ex_doc, "~> 0.29.4", only: :dev, runtime: false},
       {:stream_data, "~> 0.5.0", only: :test}
     ]
