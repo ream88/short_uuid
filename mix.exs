@@ -1,8 +1,8 @@
 defmodule ShortUUID.MixProject do
   use Mix.Project
 
-  @version "2.1.1"
-  @url "https://github.com/YodelTalk/short_uuid"
+  @version "3.0.0"
+  @url "https://github.com/ream88/short_uuid"
   @maintainers ["Mario Uher"]
 
   def project do
@@ -21,35 +21,32 @@ defmodule ShortUUID.MixProject do
       docs: [
         main: "ShortUUID",
         api_reference: false,
-        extras: ["README.md", "LICENSE"]
+        extras: ["README.md", "CHANGELOG.md", "LICENSE"]
       ]
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     []
   end
 
   defp description do
-    """
-    ShortUUID allows UUIDs to be encoded in a more URL- and user-friendly Base58 format.
-    """
+    "Encode UUIDs into Base58, with optional Ecto integration for prefixed IDs (e.g., usr_F6tzXELwufrXBFtFTKsUvc)."
   end
 
   defp package do
     [
       maintainers: @maintainers,
       licenses: ["MIT"],
-      links: %{"GitHub" => @url}
+      links: %{"GitHub" => @url, "Changelog" => "#{@url}/blob/main/CHANGELOG.md"}
     ]
   end
 
   defp deps do
     [
       {:ecto, "~> 3.0", optional: true},
-      {:ex_doc, "~> 0.29.4", only: :dev, runtime: false},
-      {:stream_data, "~> 0.5.0", only: :test}
+      {:ex_doc, "~> 0.29", only: :dev, runtime: false},
+      {:stream_data, "~> 0.5 or ~> 1.0", only: :test}
     ]
   end
 end
