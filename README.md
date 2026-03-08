@@ -1,4 +1,4 @@
-# ShortUUID
+# ShortUUID [![CI](https://github.com/ream88/short_uuid/actions/workflows/elixir.yml/badge.svg)](https://github.com/ream88/short_uuid/actions/workflows/elixir.yml)
 
 <!-- MDOC !-->
 
