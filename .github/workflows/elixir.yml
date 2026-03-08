@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-  repository_dispatch:
 
 jobs:
   test:
@@ -14,37 +13,25 @@ jobs:
     strategy:
       matrix:
         include:
-          - elixir: 1.7
-            otp: 20
-            runs-on: ubuntu-20.04
-          - elixir: 1.11
-            otp: 23
-            runs-on: ubuntu-20.04
-          - elixir: 1.15
-            otp: 26
-            runs-on: ubuntu-22.04
-    runs-on: ${{ matrix.runs-on }}
+          - elixir: 1.14
+            otp: 25
+          - elixir: 1.17
+            otp: 27
+          - elixir: 1.18
+            otp: 27
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
-      - uses: actions/cache/restore@v3
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
+      - uses: actions/cache@v4
         with:
           path: deps
-          key: ${{ matrix.elixir }}-mix-${{ hashFiles('/mix.lock') }}
+          key: ${{ matrix.elixir }}-${{ matrix.otp }}-mix-${{ hashFiles('mix.lock') }}
       - run: mix deps.get
-      - uses: actions/cache/save@v3
-        with:
-          path: deps
-          key: ${{ matrix.elixir }}-mix-${{ hashFiles('/mix.lock') }}
       - run: mix deps.unlock --check-unused
-        if: ${{ matrix.elixir != 1.7 }}
       - run: mix format --check-formatted
-        if: ${{ matrix.elixir != 1.7 }}
       - run: mix compile --warnings-as-errors
-      - run: mix test
-        if: ${{ matrix.elixir != 1.15 }}
       - run: mix test --warnings-as-errors
-        if: ${{ matrix.elixir == 1.15 }}
