@@ -46,7 +46,7 @@ defmodule ShortUUID.MixProject do
     [
       {:ecto, "~> 3.0", optional: true},
       {:ex_doc, "~> 0.29", only: :dev, runtime: false},
-      {:stream_data, "~> 0.5 or ~> 1.0", only: :test}
+      {:stream_data, "~> 1.0", only: :test}
     ]
   end
 end
