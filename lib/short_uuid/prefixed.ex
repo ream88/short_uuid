@@ -8,8 +8,15 @@ if Code.ensure_loaded?(Ecto.ParameterizedType) do
 
     ## Examples
 
+    As a primary key (and matching foreign key type for `belongs_to`):
+
         @primary_key {:id, ShortUUID.Prefixed, prefix: "usr", autogenerate: true}
         @foreign_key_type ShortUUID.Prefixed
+
+    As a plain field with an explicit prefix — useful for non-primary-key UUID
+    columns that aren't part of a `belongs_to` association:
+
+        field :external_id, ShortUUID.Prefixed, prefix: "ext"
 
     ## Schema helper
 
@@ -33,20 +40,32 @@ if Code.ensure_loaded?(Ecto.ParameterizedType) do
     def init(opts) do
       schema = Keyword.fetch!(opts, :schema)
       field = Keyword.fetch!(opts, :field)
+      prefix = Keyword.get(opts, :prefix)
 
-      if opts[:primary_key] do
-        prefix = Keyword.get(opts, :prefix) || raise "`:prefix` option is required"
+      cond do
+        opts[:primary_key] ->
+          prefix = prefix || raise "`:prefix` option is required"
 
-        %{
-          primary_key: true,
-          schema: schema,
-          prefix: prefix
-        }
-      else
-        %{
-          schema: schema,
-          field: field
-        }
+          %{
+            primary_key: true,
+            schema: schema,
+            prefix: prefix
+          }
+
+        # Plain `field :foo, ShortUUID.Prefixed, prefix: "bar"` — no belongs_to
+        # association to walk; use the literal prefix directly.
+        prefix ->
+          %{
+            schema: schema,
+            field: field,
+            prefix: prefix
+          }
+
+        true ->
+          %{
+            schema: schema,
+            field: field
+          }
       end
     end
 

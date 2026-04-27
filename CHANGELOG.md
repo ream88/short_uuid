@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.0.0
+
+### Breaking
+
+- Minimum required Elixir version is now 1.14
+
+### Added
+
+- `ShortUUID.Prefixed` now supports a plain `field :foo, ShortUUID.Prefixed, prefix: "bar"` declaration for non-primary-key UUID columns that aren't part of a `belongs_to` association
+
 ## 3.0.0
 
 ### Breaking

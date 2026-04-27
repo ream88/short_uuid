@@ -27,6 +27,7 @@ if Code.ensure_loaded?(Ecto.ParameterizedType) do
               prefix: "tst"
             )
     @belongs_to_params Prefixed.init(schema: TestSchema, field: :test, foreign_key: :test_id)
+    @field_params Prefixed.init(schema: TestSchema, field: :other_id, prefix: "tst")
     @loader nil
     @dumper nil
 
@@ -48,6 +49,13 @@ if Code.ensure_loaded?(Ecto.ParameterizedType) do
     test "cast/2 resolves belongs_to prefix" do
       slug = Prefixed.autogenerate(@params)
       assert Prefixed.cast(slug, @belongs_to_params) == {:ok, slug}
+    end
+
+    test "cast/2 uses explicit :prefix on a plain field without an association" do
+      slug = Prefixed.autogenerate(@field_params)
+      assert "tst_" <> _ = slug
+      assert Prefixed.cast(slug, @field_params) == {:ok, slug}
+      assert Prefixed.cast("otherprefix_F6tzXELwufrXBFtFTKsUvc", @field_params) == :error
     end
 
     test "load/3 roundtrips through dump/3" do
