@@ -1,7 +1,7 @@
 defmodule ShortUUID.MixProject do
   use Mix.Project
 
-  @version "3.0.0"
+  @version "4.0.0"
   @url "https://github.com/ream88/short_uuid"
   @maintainers ["Mario Uher"]
 
@@ -31,7 +31,7 @@ defmodule ShortUUID.MixProject do
   end
 
   defp description do
-    "Encode UUIDs into Base58, with optional Ecto integration for prefixed IDs (e.g., usr_F6tzXELwufrXBFtFTKsUvc)."
+    "Encode UUIDs into Base58, with optional Ecto integration for prefixed IDs."
   end
 
   defp package do
